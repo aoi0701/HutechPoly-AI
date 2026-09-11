@@ -225,6 +225,7 @@ export default function PracticePage({ params }: PracticePageProps) {
               src="/logohutech.png"
               alt="HUTECH Logo"
               fill
+              sizes="32px"
               className="object-contain"
             />
           </div>

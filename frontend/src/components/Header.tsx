@@ -46,6 +46,7 @@ export default function Header() {
                 src="/logohutech.png"
                 alt="Logo HUTECH"
                 fill
+                sizes="(max-width: 640px) 48px, 56px"
                 className="object-contain"
                 priority
               />
