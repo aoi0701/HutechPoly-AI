@@ -14,6 +14,7 @@ from app.core.config import settings
 from app.api.endpoints.websocket import router as websocket_router
 from app.routers.topics import router as topics_router
 from app.routers.chat import router as chat_router
+from app.routers.tts import router as tts_router
 
 # Thiết lập định dạng ghi nhật ký hệ thống (Logging)
 logging.basicConfig(
@@ -49,6 +50,9 @@ app.include_router(topics_router, prefix="/api/topics", tags=["Chủ đề (Topi
 
 # 3. Đăng ký tuyến đường REST API đàm thoại phản xạ AI (Chat)
 app.include_router(chat_router, prefix="/api", tags=["Luyện Phản Xạ (Chat)"])
+
+# 4. Đăng ký tuyến đường REST API Text-to-Speech (TTS)
+app.include_router(tts_router)
 
 
 @app.get("/health", tags=["Kiểm tra hệ thống"])
