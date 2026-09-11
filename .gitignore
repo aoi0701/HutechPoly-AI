@@ -6,6 +6,8 @@
 # --- Environment & Secret Variables ---
 .env
 .env*.local
+backend/.env
+**/.env
 !.env.example
 
 # --- Node.js & Next.js ---

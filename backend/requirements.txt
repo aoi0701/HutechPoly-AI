@@ -1,6 +1,7 @@
-﻿fastapi
+fastapi
 uvicorn[standard]
 websockets
 pydantic-settings
 python-dotenv
-google-genai
+google-genai>=0.1.1
+supabase>=2.13.0
