@@ -13,6 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.api.endpoints.websocket import router as websocket_router
 from app.routers.topics import router as topics_router
+from app.routers.chat import router as chat_router
 
 # Thiết lập định dạng ghi nhật ký hệ thống (Logging)
 logging.basicConfig(
@@ -44,7 +45,10 @@ app.add_middleware(
 app.include_router(websocket_router)
 
 # 2. Đăng ký tuyến đường REST API quản lý danh mục chủ đề (Topics)
-app.include_router(topics_router, prefix="/api/topics", tags=["Topics"])
+app.include_router(topics_router, prefix="/api/topics", tags=["Chủ đề (Topics)"])
+
+# 3. Đăng ký tuyến đường REST API đàm thoại phản xạ AI (Chat)
+app.include_router(chat_router, prefix="/api", tags=["Luyện Phản Xạ (Chat)"])
 
 
 @app.get("/health", tags=["Kiểm tra hệ thống"])
