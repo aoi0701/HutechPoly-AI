@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, use } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowLeft,
   Mic,
@@ -13,8 +14,8 @@ import {
   Volume2,
   AlertCircle,
   RefreshCw,
-  HelpCircle,
   CheckCircle2,
+  GraduationCap,
 } from "lucide-react";
 import { Topic, VocabItem } from "@/types/topic";
 
@@ -35,7 +36,6 @@ interface ChatMessage {
 }
 
 export default function PracticePage({ params }: PracticePageProps) {
-  // Mở gói params trong Next.js 15 App Router
   const resolvedParams = use(params);
   const topicCode = resolvedParams.topic_code;
 
@@ -43,13 +43,13 @@ export default function PracticePage({ params }: PracticePageProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Trạng thái hội thoại và nhập liệu
+  // Trạng thái đàm thoại
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputText, setInputText] = useState<string>("");
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [showViTranslation, setShowViTranslation] = useState<boolean>(true);
 
-  // Tải chi tiết chủ đề từ Backend FastAPI
+  // Tải chi tiết chủ đề từ Backend
   const fetchTopicDetail = async () => {
     setLoading(true);
     setError(null);
@@ -64,21 +64,21 @@ export default function PracticePage({ params }: PracticePageProps) {
 
       if (!res.ok) {
         throw new Error(
-          `Không thể tải chủ đề ${topicCode} (Mã lỗi: ${res.status})`
+          `Không tìm thấy dữ liệu chủ đề ${topicCode} (Mã phản hồi: ${res.status})`
         );
       }
 
       const data: Topic = await res.json();
       setTopic(data);
 
-      // Khởi tạo các tin nhắn mẫu sinh động (AI mở đầu + Sinh viên phản hồi)
+      // Khởi tạo các lượt đối thoại mẫu chuẩn nhận diện HUTECH
       const initialMessages: ChatMessage[] = [
         {
           id: "m-1",
           sender: "ai",
           text: data.opening_line,
           vi_translation:
-            "Xin chào! Chào mừng bạn đến với phiên luyện đàm thoại. Bạn đã sẵn sàng chia sẻ cùng tôi chưa?",
+            "Xin chào bạn! Chào mừng bạn đến với phiên luyện phản xạ cùng HutechPoly AI. Bạn đã sẵn sàng cùng tôi luyện tập chưa?",
           timestamp: "Vừa xong",
         },
         {
@@ -86,7 +86,7 @@ export default function PracticePage({ params }: PracticePageProps) {
           sender: "user",
           text:
             data.language === "en"
-              ? "Hi! I am ready, but sometimes tôi bị bí từ so I will speak Vietnamese."
+              ? "Hi there! I am ready to practice, but sometimes tôi bị bí từ nên sẽ nói tiếng Việt nhé."
               : data.language === "ja"
               ? "こんにちは！準備ができました。でも時々 tôi bị bí từ nên sẽ nói tiếng Việt nhé."
               : "안녕하세요! 준비됐어요. 그런데 가끔 bí từ thì tôi nói tiếng Việt nhé.",
@@ -97,21 +97,21 @@ export default function PracticePage({ params }: PracticePageProps) {
           sender: "ai",
           text:
             data.language === "en"
-              ? "No worries at all! Speaking some Vietnamese when stuck is totally fine. Let's practice naturally together!"
+              ? "No problem at all! Switching to Vietnamese when stuck is totally fine. I am here to help you speak with full confidence!"
               : data.language === "ja"
-              ? "大丈夫ですよ！言葉に詰まったらベトナム語を交えても構いません。自然に楽しく話しましょう！"
-              : "괜찮아요! 막힐 때는 베트남어로 편하게 말해도 돼요. 자연스럽게 연습해 봐요!",
+              ? "全く問題ありませんよ！言葉に詰まったらベトナム語を交えても大丈夫です。自信を持って楽しく話しましょう！"
+              : "전혀 문제없어요! 막힐 때는 편하게 베트남어를 섞어 말해도 돼요. 함께 자신 있게 연습해 봐요!",
           vi_translation:
-            "Không sao cả! Việc chêm tiếng Việt khi bí từ là hoàn toàn bình thường. Hãy cùng luyện phản xạ thật tự nhiên nhé!",
+            "Hoàn toàn không sao bạn nhé! Khi bí từ cứ tự nhiên nói chêm tiếng Việt. Tôi ở đây để hỗ trợ bạn nói ngoại ngữ thật tự tin!",
           grammar_feedback:
-            "💡 Gợi ý: Khi muốn nói 'tôi bị bí từ', bạn có thể dùng: 'I got stuck on a word' (EN) / '言葉に詰まりました' (JA) / '단어가 생각이 안 났어요' (KO).",
-          vocabulary_hints: ["get stuck: bị kẹt, bí từ", "practice: luyện tập"],
+            "💡 Sửa lỗi câu chêm tiếng Việt: Thay vì nói 'tôi bị bí từ', bạn nên dùng mẫu câu: 'I got stuck on a word' (EN) / '言葉に詰まりました' (JA) / '단어가 생각이 안 났어요' (KO).",
+          vocabulary_hints: ["confidence: sự tự tin", "get stuck: bị kẹt từ"],
           timestamp: "Vừa xong",
         },
       ];
       setMessages(initialMessages);
     } catch (err: any) {
-      console.error("Lỗi khi tải chi tiết chủ đề:", err);
+      console.error("Lỗi tải chi tiết chủ đề:", err);
       setError(err.message || "Không thể kết nối đến máy chủ Backend.");
     } finally {
       setLoading(false);
@@ -122,7 +122,7 @@ export default function PracticePage({ params }: PracticePageProps) {
     fetchTopicDetail();
   }, [topicCode]);
 
-  // Xử lý gửi tin nhắn của người dùng
+  // Gửi tin nhắn
   const handleSendMessage = () => {
     if (!inputText.trim()) return;
 
@@ -136,34 +136,33 @@ export default function PracticePage({ params }: PracticePageProps) {
     setMessages((prev) => [...prev, userMsg]);
     setInputText("");
 
-    // Giả lập AI phản hồi sau 1 giây
+    // Phản hồi giả lập từ AI
     setTimeout(() => {
       const aiReply: ChatMessage = {
         id: `ai-${Date.now()}`,
         sender: "ai",
         text:
           topic?.language === "en"
-            ? "That sounds interesting! Could you tell me more about your thoughts on this?"
+            ? "That is a very good point! What other experiences do you have in this area?"
             : topic?.language === "ja"
-            ? "それは面白いですね！それについてもっと詳しく教えてもらえますか？"
-            : "흥미롭네요! 그것에 대해 조금 더 자세히 이야기해 주실 수 있나요?",
-        vi_translation: "Nghe thú vị quá! Bạn có thể chia sẻ thêm cho tôi về điều này không?",
+            ? "とても素晴らしい視点ですね！この分野で他にどんな経験がありますか？"
+            : "정말 좋은 생각이네요! 이 분야에서 다른 어떤 경험이 있으신가요?",
+        vi_translation: "Ý kiến của bạn rất hay! Bạn có thêm trải nghiệm nào khác về chủ đề này không?",
         timestamp: "Vừa xong",
       };
       setMessages((prev) => [...prev, aiReply]);
     }, 1000);
   };
 
-  // Bật/tắt mô phỏng ghi âm giọng nói
+  // Mô phỏng Push-to-Talk ghi âm
   const toggleRecording = () => {
     setIsRecording((prev) => !prev);
     if (!isRecording) {
-      // Giả lập sau 3 giây tự động nhận diện xong giọng nói
       setTimeout(() => {
         setIsRecording(false);
         setInputText(
           topic?.language === "en"
-            ? "I really enjoy this topic because tôi học được nhiều từ vựng mới."
+            ? "I really like this topic because tôi học được nhiều từ vựng thực tế."
             : topic?.language === "ja"
             ? "このテーマはとても面白いです。Tôi thấy học được nhiều mẫu câu hay."
             : "이 주제는 정말 재미있어요. Tôi đã học được nhiều điều mới."
@@ -176,9 +175,9 @@ export default function PracticePage({ params }: PracticePageProps) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
         <div className="text-center space-y-3">
-          <RefreshCw className="w-8 h-8 text-[#003B7A] animate-spin mx-auto" />
+          <RefreshCw className="w-8 h-8 text-[#0054A6] animate-spin mx-auto" />
           <p className="text-sm font-bold text-slate-700">
-            Đang tải phòng thoại chủ đề {topicCode}...
+            Đang kết nối phòng đàm thoại {topicCode}...
           </p>
         </div>
       </div>
@@ -198,10 +197,10 @@ export default function PracticePage({ params }: PracticePageProps) {
           <p className="text-xs text-slate-500">{error}</p>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-[#003B7A] hover:bg-[#F58220] text-white text-xs font-bold rounded-xl transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-[#0054A6] hover:bg-[#E31B23] text-white text-xs font-bold rounded-xl transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Quay lại trang chủ</span>
+            <span>Quay lại danh mục</span>
           </Link>
         </div>
       </div>
@@ -209,69 +208,80 @@ export default function PracticePage({ params }: PracticePageProps) {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-slate-100 overflow-hidden">
-      {/* Thanh điều hướng đỉnh phòng thoại */}
-      <header className="h-16 bg-[#003B7A] text-white border-b-2 border-[#F58220] px-4 sm:px-6 flex items-center justify-between shrink-0 shadow-sm">
+    <div className="h-screen flex flex-col bg-[#F4F6F9] overflow-hidden">
+      {/* Header phòng luyện tập chuẩn Cổng Học Vụ HUTECH */}
+      <header className="h-16 bg-white border-b-2 border-[#0054A6] px-4 sm:px-6 flex items-center justify-between shrink-0 shadow-xs">
         <div className="flex items-center gap-3">
           <Link
             href="/"
-            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 transition-colors text-white"
+            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#0054A6] transition-colors"
             title="Quay lại danh mục chủ đề"
           >
             <ArrowLeft className="w-5 h-5" />
           </Link>
+
+          <div className="relative w-8 h-8 shrink-0 hidden sm:block">
+            <Image
+              src="/logohutech.png"
+              alt="HUTECH Logo"
+              fill
+              className="object-contain"
+            />
+          </div>
+
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-mono text-xs font-black px-2 py-0.5 rounded bg-[#F58220] text-white">
+              <span className="font-mono text-xs font-black px-2 py-0.5 rounded bg-[#0054A6] text-white shadow-2xs">
                 {topic.topic_code}
               </span>
-              <h1 className="text-sm sm:text-base font-bold text-white line-clamp-1">
+              <h1 className="text-sm sm:text-base font-black text-slate-900 line-clamp-1">
                 {topic.title_vi}
               </h1>
             </div>
-            <p className="text-xs text-blue-200 line-clamp-1 hidden sm:block">
-              {topic.title_native} • {topic.faculty}
+            <p className="text-xs font-semibold text-slate-500 line-clamp-1 hidden sm:block">
+              {topic.title_native} • <span className="text-[#0054A6]">{topic.faculty}</span>
             </p>
           </div>
         </div>
 
-        {/* Trạng thái kết nối */}
-        <div className="flex items-center gap-3 text-xs">
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="font-semibold hidden sm:inline">Phản xạ sẵn sàng</span>
+        {/* Trạng thái kết nối & Nút dịch */}
+        <div className="flex items-center gap-2 sm:gap-3 text-xs">
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="hidden sm:inline">Phản xạ sẵn sàng</span>
           </div>
+
           <button
             onClick={() => setShowViTranslation(!showViTranslation)}
-            className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-blue-100 text-xs font-medium transition-colors"
+            className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition-colors"
           >
             {showViTranslation ? "Ẩn dịch nghĩa" : "Hiện dịch nghĩa"}
           </button>
         </div>
       </header>
 
-      {/* Thân giao diện: 2 cột (Sidebar từ vựng & Khung chat) */}
+      {/* Thân giao diện: Sidebar Học Thuật & Khung Chat */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Thanh Bên (Sidebar): Bối cảnh & Danh mục Từ vựng gợi ý */}
+        {/* Sidebar Học Thuật: Bối cảnh Persona & Ngân hàng Từ vựng */}
         <aside className="w-80 lg:w-96 bg-white border-r border-slate-200 hidden md:flex flex-col shrink-0 overflow-y-auto">
-          {/* Vai trò AI Persona */}
-          <div className="p-5 border-b border-slate-100 bg-slate-50/50">
-            <div className="flex items-center gap-2 text-xs font-bold text-[#003B7A] uppercase tracking-wider mb-2">
-              <Bot className="w-4 h-4 text-[#F58220]" />
-              <span>Đối tác AI (Persona)</span>
+          {/* Đối tác AI Persona */}
+          <div className="p-5 border-b border-slate-100 bg-slate-50/70">
+            <div className="flex items-center gap-2 text-xs font-black text-[#0054A6] uppercase tracking-wider mb-2">
+              <Bot className="w-4 h-4 text-[#E31B23]" />
+              <span>Đối tác AI Bản Xứ (Persona)</span>
             </div>
-            <p className="text-xs text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-slate-200">
+            <p className="text-xs text-slate-700 leading-relaxed bg-white p-3.5 rounded-xl border border-slate-200/90 font-medium">
               {topic.ai_persona}
             </p>
           </div>
 
-          {/* Câu mở đầu */}
+          {/* Câu mở đầu dẫn dắt */}
           <div className="p-5 border-b border-slate-100">
             <div className="flex items-center gap-2 text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-              <Sparkles className="w-4 h-4 text-[#F58220]" />
+              <Sparkles className="w-4 h-4 text-[#0054A6]" />
               <span>Câu mở đầu dẫn dắt</span>
             </div>
-            <div className="text-xs text-slate-800 bg-blue-50/60 p-3 rounded-xl border border-blue-100 font-medium italic">
+            <div className="text-xs text-slate-800 bg-blue-50/70 p-3 rounded-xl border border-blue-200 font-semibold italic">
               "{topic.opening_line}"
             </div>
           </div>
@@ -280,7 +290,7 @@ export default function PracticePage({ params }: PracticePageProps) {
           <div className="p-5 flex-1">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2 text-xs font-bold text-slate-700 uppercase tracking-wider">
-                <BookOpen className="w-4 h-4 text-[#003B7A]" />
+                <BookOpen className="w-4 h-4 text-[#0054A6]" />
                 <span>Từ vựng trọng tâm ({topic.key_vocab?.length || 0})</span>
               </div>
             </div>
@@ -293,38 +303,38 @@ export default function PracticePage({ params }: PracticePageProps) {
                 return (
                   <div
                     key={idx}
-                    className="p-3 rounded-xl bg-slate-50 border border-slate-200 hover:border-[#003B7A]/40 transition-colors"
+                    className="p-3 rounded-xl bg-slate-50 border border-slate-200 hover:border-[#0054A6] transition-colors"
                   >
                     <div className="flex items-center justify-between gap-1 mb-1">
-                      <span className="text-sm font-bold text-[#003B7A]">
+                      <span className="text-sm font-black text-[#0054A6]">
                         {primaryWord}
                       </span>
                       {vocab.ipa && (
-                        <span className="font-mono text-xs text-slate-500 bg-white px-1.5 py-0.5 rounded border border-slate-200">
+                        <span className="font-mono text-xs text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">
                           {vocab.ipa}
                         </span>
                       )}
                       {vocab.honorific_type && (
-                        <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-purple-100 text-purple-700">
+                        <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-700">
                           {vocab.honorific_type}
                         </span>
                       )}
                     </div>
 
-                    {/* Hiển thị Furigana hoặc Romaja */}
+                    {/* Furigana hoặc Romaja */}
                     {vocab.word_ruby && (
                       <div
-                        className="text-xs text-red-600 mb-1"
+                        className="text-xs text-[#E31B23] font-bold mb-1"
                         dangerouslySetInnerHTML={{ __html: vocab.word_ruby }}
                       />
                     )}
                     {vocab.romaja && (
-                      <div className="text-[11px] text-purple-600 mb-1">
+                      <div className="text-[11px] text-purple-600 font-medium mb-1">
                         Romaja: {vocab.romaja}
                       </div>
                     )}
 
-                    <div className="text-xs text-slate-600">
+                    <div className="text-xs text-slate-600 font-medium">
                       {vocab.meaning_vi}
                     </div>
                   </div>
@@ -335,8 +345,8 @@ export default function PracticePage({ params }: PracticePageProps) {
         </aside>
 
         {/* Khung Chat Chính */}
-        <main className="flex-1 flex flex-col bg-slate-100 overflow-hidden">
-          {/* Danh sách Tin nhắn */}
+        <main className="flex-1 flex flex-col bg-[#F4F6F9] overflow-hidden">
+          {/* Luồng Tin Nhắn */}
           <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
             {messages.map((msg) => {
               const isAi = msg.sender === "ai";
@@ -348,44 +358,50 @@ export default function PracticePage({ params }: PracticePageProps) {
                   }`}
                 >
                   {isAi && (
-                    <div className="w-8 h-8 rounded-full bg-[#003B7A] text-white flex items-center justify-center shrink-0 shadow-sm mt-1">
-                      <Bot className="w-4 h-4" />
+                    <div className="w-9 h-9 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center shrink-0 mt-1 relative overflow-hidden">
+                      <Image
+                        src="/logohutech.png"
+                        alt="AI Mascot"
+                        width={24}
+                        height={24}
+                        className="object-contain"
+                      />
                     </div>
                   )}
 
                   <div
                     className={`max-w-xl rounded-2xl p-4 shadow-sm space-y-2 ${
                       isAi
-                        ? "bg-white text-slate-900 border border-slate-200 rounded-tl-sm"
-                        : "bg-[#003B7A] text-white rounded-tr-sm"
+                        ? "bg-white text-slate-900 border border-slate-200 rounded-tl-xs"
+                        : "bg-[#0054A6] text-white rounded-tr-xs"
                     }`}
                   >
-                    {/* Nội dung tin nhắn chính */}
-                    <p className="text-sm sm:text-base leading-relaxed whitespace-pre-wrap">
+                    {/* Nội dung câu nói */}
+                    <p className="text-sm sm:text-base leading-relaxed whitespace-pre-wrap font-medium">
                       {msg.text}
                     </p>
 
-                    {/* Bản dịch tiếng Việt hỗ trợ (chỉ hiện cho tin AI) */}
+                    {/* Bản dịch đối chiếu tiếng Việt */}
                     {isAi && msg.vi_translation && showViTranslation && (
                       <div className="pt-2 border-t border-slate-100 text-xs text-slate-500 italic">
                         {msg.vi_translation}
                       </div>
                     )}
 
-                    {/* Hộp nhận xét sửa lỗi ngữ pháp (Bilingual feedback) */}
+                    {/* Nhận xét sửa lỗi ngữ pháp (Bilingual feedback) */}
                     {isAi && msg.grammar_feedback && (
-                      <div className="mt-2 p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 leading-relaxed">
+                      <div className="mt-2 p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 leading-relaxed font-medium">
                         {msg.grammar_feedback}
                       </div>
                     )}
 
-                    {/* Gợi ý từ vựng (Vocabulary hints) */}
+                    {/* Từ vựng gợi ý */}
                     {isAi && msg.vocabulary_hints && msg.vocabulary_hints.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 pt-1">
                         {msg.vocabulary_hints.map((hint, hIdx) => (
                           <span
                             key={hIdx}
-                            className="text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-md"
+                            className="text-[11px] font-semibold bg-blue-50 text-[#0054A6] border border-blue-200 px-2 py-0.5 rounded-md"
                           >
                             {hint}
                           </span>
@@ -403,8 +419,8 @@ export default function PracticePage({ params }: PracticePageProps) {
                   </div>
 
                   {!isAi && (
-                    <div className="w-8 h-8 rounded-full bg-[#F58220] text-white flex items-center justify-center shrink-0 shadow-sm mt-1">
-                      <User className="w-4 h-4" />
+                    <div className="w-9 h-9 rounded-full bg-[#E31B23] text-white flex items-center justify-center font-black text-xs shrink-0 shadow-sm mt-1">
+                      SV
                     </div>
                   )}
                 </div>
@@ -412,29 +428,29 @@ export default function PracticePage({ params }: PracticePageProps) {
             })}
           </div>
 
-          {/* Thanh Công Cụ Nhập Liệu Phía Dưới */}
-          <div className="p-3 sm:p-4 bg-white border-t border-slate-200">
-            {/* Lời nhắc cơ chế song ngữ */}
+          {/* Thanh Nhập Liệu & Nút Micro Push-to-Talk */}
+          <div className="p-3 sm:p-4 bg-white border-t border-slate-200 shadow-xs">
+            {/* Lời nhắc song ngữ */}
             <div className="max-w-4xl mx-auto mb-2 flex items-center justify-between text-[11px] text-slate-500 px-1">
-              <span className="flex items-center gap-1">
-                <Sparkles className="w-3 h-3 text-[#F58220]" />
-                <span>Mẹo: Nếu bí từ ngoại ngữ, bạn cứ nói chêm Tiếng Việt nhé!</span>
+              <span className="flex items-center gap-1 text-[#0054A6] font-bold">
+                <Sparkles className="w-3.5 h-3.5 text-[#E31B23]" />
+                <span>Bí từ ngoại ngữ? Sinh viên cứ nói chêm Tiếng Việt thoải mái nhé!</span>
               </span>
-              <span className="hidden sm:inline">Phím Enter để gửi</span>
+              <span className="hidden sm:inline text-slate-400">Nhấn Enter để gửi</span>
             </div>
 
-            {/* Ô nhập và các nút chức năng */}
+            {/* Ô nhập và cụm nút tương tác */}
             <div className="max-w-4xl mx-auto flex items-center gap-2">
-              {/* Nút Micro mô phỏng ghi âm giọng nói */}
+              {/* Nút Micro thu âm chuẩn HUTECH Red/Orange */}
               <button
                 type="button"
                 onClick={toggleRecording}
                 className={`p-3 rounded-xl font-bold transition-all duration-200 flex items-center gap-2 shadow-sm shrink-0 ${
                   isRecording
-                    ? "bg-red-600 text-white animate-pulse scale-105 shadow-red-500/30"
-                    : "bg-[#F58220] hover:bg-[#d96d10] text-white shadow-orange-500/20"
+                    ? "bg-[#E31B23] text-white animate-pulse scale-105 shadow-red-500/30"
+                    : "bg-[#0054A6] hover:bg-[#E31B23] text-white shadow-blue-500/20"
                 }`}
-                title={isRecording ? "Đang ghi âm... Bấm để dừng" : "Bấm giữ để nói"}
+                title={isRecording ? "Đang ghi âm... Nhấn để dừng" : "Nhấn giữ để nói"}
               >
                 <Mic className="w-5 h-5" />
                 {isRecording && (
@@ -448,7 +464,7 @@ export default function PracticePage({ params }: PracticePageProps) {
                 )}
               </button>
 
-              {/* Ô gõ tin nhắn văn bản */}
+              {/* Ô gõ tin nhắn */}
               <div className="flex-1 relative">
                 <input
                   type="text"
@@ -459,19 +475,19 @@ export default function PracticePage({ params }: PracticePageProps) {
                   }}
                   placeholder={
                     isRecording
-                      ? "Đang lắng nghe giọng nói của bạn..."
-                      : "Nhập tin nhắn đàm thoại (hoặc bấm mic để nói)..."
+                      ? "Đang lắng nghe giọng nói sinh viên HUTECH..."
+                      : "Nhập tin nhắn đàm thoại (hoặc nhấn mic để nói)..."
                   }
-                  className="w-full px-4 py-3 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#003B7A] focus:bg-white transition-colors"
+                  className="w-full px-4 py-3 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0054A6] focus:bg-white transition-colors text-slate-800 font-medium"
                 />
               </div>
 
-              {/* Nút gửi tin nhắn */}
+              {/* Nút gửi */}
               <button
                 type="button"
                 onClick={handleSendMessage}
                 disabled={!inputText.trim()}
-                className="p-3 rounded-xl bg-[#003B7A] hover:bg-[#002752] text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-sm shrink-0"
+                className="p-3 rounded-xl bg-[#0054A6] hover:bg-[#E31B23] text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-sm shrink-0"
                 title="Gửi tin nhắn"
               >
                 <Send className="w-5 h-5" />

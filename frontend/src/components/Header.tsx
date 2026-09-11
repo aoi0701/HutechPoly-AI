@@ -2,70 +2,125 @@
 
 import React from "react";
 import Link from "next/link";
-import { GraduationCap, Sparkles, Globe2, BookOpen } from "lucide-react";
+import Image from "next/image";
+import { GraduationCap, Sparkles, Globe2, User, Phone, Mail } from "lucide-react";
 
 /**
- * Thành phần Header nhận diện thương hiệu Đại học HUTECH
+ * Header chuẩn nhận diện thương hiệu Cổng Học Vụ Điện Tử - Đại học HUTECH
  */
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-[#003B7A] text-white shadow-md border-b-4 border-[#F58220]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
-          {/* Logo và Tên Nền tảng HutechPoly-AI */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform duration-200">
-              <span className="text-xl sm:text-2xl font-black text-[#003B7A] tracking-tighter">
-                H<span className="text-[#F58220]">P</span>
-              </span>
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xl sm:text-2xl font-black tracking-tight text-white">
-                  Hutech<span className="text-[#F58220]">Poly</span>-AI
-                </span>
-                <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold bg-[#F58220]/20 text-[#F58220] border border-[#F58220]/40 px-2 py-0.5 rounded-full">
-                  <Sparkles className="w-3 h-3" /> Đồ án Hiến tặng
-                </span>
-              </div>
-              <p className="text-xs text-blue-200 hidden md:block">
-                Hệ Thống Luyện Phản Xạ Đa Ngữ Thông Minh • Đại Học HUTECH
-              </p>
-            </div>
-          </Link>
-
-          {/* Huy hiệu 3 Khoa/Viện thụ hưởng */}
-          <div className="hidden lg:flex items-center gap-2 text-xs">
-            <span className="px-2.5 py-1 rounded-md bg-blue-900/60 border border-blue-400/30 text-blue-100 flex items-center gap-1">
-              🇬🇧 Khoa Ngoại ngữ
+    <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+      {/* Thanh thông tin phụ trên cùng (Top Bar chuẩn HUTECH) */}
+      <div className="bg-[#0054A6] text-white text-[11px] py-1 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1">
+              <Phone className="w-3 h-3 text-[#FFC20E]" />
+              <span>Hotline Học vụ: (028) 710 566 86</span>
             </span>
-            <span className="px-2.5 py-1 rounded-md bg-blue-900/60 border border-blue-400/30 text-blue-100 flex items-center gap-1">
-              🇯🇵 Viện VJIT
-            </span>
-            <span className="px-2.5 py-1 rounded-md bg-blue-900/60 border border-blue-400/30 text-blue-100 flex items-center gap-1">
-              🇰🇷 Viện Việt - Hàn
+            <span className="hidden sm:flex items-center gap-1 text-blue-200">
+              <Mail className="w-3 h-3 text-[#FFC20E]" />
+              <span>hocvudientu@hutech.edu.vn</span>
             </span>
           </div>
 
-          {/* Menu Điều hướng */}
-          <nav className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-3">
+            <span className="hidden md:inline text-blue-200">
+              Hệ thống Học vụ Điện tử • Đồ án Tốt nghiệp CNTT Hiến tặng
+            </span>
+            <span className="bg-[#E31B23] text-white font-bold px-2 py-0.5 rounded text-[10px] tracking-wide">
+              HUTECHPOLY-AI
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Thanh Header chính */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo HUTECH và Tên Hệ thống */}
+          <Link href="/" className="flex items-center gap-3.5 group">
+            <div className="relative w-12 h-12 sm:w-14 sm:h-14 shrink-0">
+              <Image
+                src="/logohutech.png"
+                alt="Logo HUTECH"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-xl sm:text-2xl font-black tracking-tight text-[#0054A6]">
+                  HUTECH
+                </span>
+                <span className="text-[11px] sm:text-xs font-bold text-[#E31B23] uppercase tracking-wide">
+                  Đại học Công nghệ TP.HCM
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs sm:text-sm font-bold text-slate-800 tracking-tight">
+                  HỆ THỐNG HỌC VỤ ĐIỆN TỬ
+                </span>
+                <span className="text-slate-300">|</span>
+                <span className="text-xs sm:text-sm font-black text-[#0054A6]">
+                  HutechPoly <span className="text-[#E31B23]">AI</span>
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          {/* Huy hiệu 3 Khoa/Viện Chuyên Ngữ */}
+          <div className="hidden xl:flex items-center gap-2 text-xs">
+            <span className="px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-200 text-[#0054A6] font-semibold flex items-center gap-1.5 shadow-2xs">
+              <span>🇬🇧</span> Khoa Ngoại ngữ
+            </span>
+            <span className="px-3 py-1.5 rounded-lg bg-red-50 border border-red-200 text-[#E31B23] font-semibold flex items-center gap-1.5 shadow-2xs">
+              <span>🇯🇵</span> Viện VJIT
+            </span>
+            <span className="px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 font-semibold flex items-center gap-1.5 shadow-2xs">
+              <span>🇰🇷</span> Viện Việt - Hàn
+            </span>
+          </div>
+
+          {/* Điều hướng và Profile sinh viên */}
+          <div className="flex items-center gap-2 sm:gap-4">
             <Link
               href="/"
-              className="px-3 py-2 text-sm font-medium rounded-lg text-white hover:bg-white/10 transition-colors flex items-center gap-1.5"
+              className="px-3 py-2 rounded-lg text-xs sm:text-sm font-bold text-[#0054A6] hover:bg-blue-50 transition-colors flex items-center gap-1.5"
             >
-              <Globe2 className="w-4 h-4 text-[#F58220]" />
-              <span className="hidden sm:inline">Khám phá</span> Chủ đề
+              <Globe2 className="w-4 h-4 text-[#E31B23]" />
+              <span className="hidden sm:inline">24 Chủ đề</span> Phản xạ
             </Link>
+
             <Link
-              href="https://hutech.edu.vn"
+              href="https://hocvudientu.hutech.edu.vn"
               target="_blank"
               rel="noreferrer"
-              className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#F58220] text-white hover:bg-[#d96d10] transition-colors shadow-sm flex items-center gap-1"
+              className="px-3 py-1.5 rounded-lg text-xs font-bold text-[#0054A6] border border-[#0054A6]/30 hover:bg-[#0054A6] hover:text-white transition-all shadow-2xs hidden md:flex items-center gap-1"
             >
               <GraduationCap className="w-4 h-4" />
-              <span>HUTECH</span>
+              <span>Cổng Học Vụ</span>
             </Link>
-          </nav>
+
+            {/* Profile sinh viên HUTECH mô phỏng */}
+            <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#0054A6] to-blue-400 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+                SV
+              </div>
+              <div className="hidden lg:block text-left">
+                <span className="text-xs font-bold text-slate-800 block leading-tight">
+                  Sinh viên HUTECH
+                </span>
+                <span className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  Đang trực tuyến
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </header>

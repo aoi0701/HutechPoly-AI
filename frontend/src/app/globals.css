@@ -2,46 +2,56 @@
 
 @layer base {
   :root {
-    --hutech-navy: #003B7A;
-    --hutech-navy-dark: #002752;
+    /* Màu sắc chuẩn Bộ nhận diện thương hiệu Đại học HUTECH */
+    --hutech-blue: #0054A6;
+    --hutech-blue-dark: #003B7A;
+    --hutech-red: #E31B23;
+    --hutech-red-dark: #C92027;
+    --hutech-yellow: #FFC20E;
     --hutech-orange: #F58220;
-    --hutech-orange-dark: #d96d10;
-    --hutech-orange-light: #fff5eb;
-    --hutech-slate: #f8fafc;
+    --hutech-bg: #F4F6F9;
   }
 }
 
-/* Các lớp tiện ích màu thương hiệu Đại học HUTECH */
-.bg-hutech-navy {
+/* Các lớp tiện ích màu thương hiệu chính thức của HUTECH */
+.bg-hutech-blue {
+  background-color: #0054A6;
+}
+
+.text-hutech-blue {
+  color: #0054A6;
+}
+
+.border-hutech-blue {
+  border-color: #0054A6;
+}
+
+.bg-hutech-red {
+  background-color: #E31B23;
+}
+
+.text-hutech-red {
+  color: #E31B23;
+}
+
+.border-hutech-red {
+  border-color: #E31B23;
+}
+
+.bg-hutech-yellow {
+  background-color: #FFC20E;
+}
+
+.text-hutech-yellow {
+  color: #FFC20E;
+}
+
+.hover\:bg-hutech-blue-dark:hover {
   background-color: #003B7A;
 }
 
-.text-hutech-navy {
-  color: #003B7A;
-}
-
-.border-hutech-navy {
-  border-color: #003B7A;
-}
-
-.bg-hutech-orange {
-  background-color: #F58220;
-}
-
-.text-hutech-orange {
-  color: #F58220;
-}
-
-.border-hutech-orange {
-  border-color: #F58220;
-}
-
-.hover\:bg-hutech-orange-dark:hover {
-  background-color: #d96d10;
-}
-
-.hover\:bg-hutech-navy-dark:hover {
-  background-color: #002752;
+.hover\:bg-hutech-red-dark:hover {
+  background-color: #C92027;
 }
 
 /* Hiệu ứng gợn sóng âm thanh (Audio Waveform) */
