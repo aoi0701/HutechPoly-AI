@@ -35,12 +35,20 @@ class Settings(BaseSettings):
 
     # --- Cấu hình Cơ sở dữ liệu đám mây (Supabase PostgreSQL) ---
     SUPABASE_URL: str = ""
+    SUPABASE_KEY: str = ""
     SUPABASE_ANON_KEY: str = ""
     SUPABASE_SERVICE_ROLE_KEY: str = ""
 
+    @property
+    def effective_supabase_anon_key(self) -> str:
+        """
+        Lấy khóa truy cập công khai (anon key), ưu tiên SUPABASE_ANON_KEY hoặc fallback về SUPABASE_KEY.
+        """
+        return self.SUPABASE_ANON_KEY or self.SUPABASE_KEY or ""
+
     # --- Cấu hình nạp file môi trường của Pydantic ---
     model_config = SettingsConfigDict(
-        env_file=(".env", "../.env"),
+        env_file=(".env", "backend/.env", "../.env"),
         env_file_encoding="utf-8",
         extra="ignore",
         case_sensitive=True,

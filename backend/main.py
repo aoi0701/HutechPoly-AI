@@ -9,9 +9,10 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# Nạp đối tượng cài đặt hệ thống và tuyến đường WebSocket
+# Nạp đối tượng cài đặt hệ thống và tuyến đường WebSocket & REST Routers
 from app.core.config import settings
 from app.api.endpoints.websocket import router as websocket_router
+from app.routers.topics import router as topics_router
 
 # Thiết lập định dạng ghi nhật ký hệ thống (Logging)
 logging.basicConfig(
@@ -39,8 +40,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Đăng ký các tuyến đường kết nối WebSocket vào ứng dụng chính
+# 1. Đăng ký tuyến đường kết nối WebSocket phục vụ thoại hai chiều
 app.include_router(websocket_router)
+
+# 2. Đăng ký tuyến đường REST API quản lý danh mục chủ đề (Topics)
+app.include_router(topics_router, prefix="/api/topics", tags=["Topics"])
 
 
 @app.get("/health", tags=["Kiểm tra hệ thống"])
