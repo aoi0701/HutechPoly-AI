@@ -11,6 +11,27 @@
     --hutech-orange: #F58220;
     --hutech-bg: #F4F6F9;
   }
+
+  html {
+    scrollbar-gutter: stable;
+    scroll-behavior: smooth;
+  }
+}
+
+/* Hiệu ứng chuyển cảnh mượt mà chống giật cho danh sách thẻ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Các lớp tiện ích màu thương hiệu chính thức của HUTECH */

@@ -64,12 +64,12 @@ export default function Header() {
               href="/"
               className="bg-white rounded-xl p-2.5 sm:p-3 shadow-md flex items-center gap-3 border border-slate-100 hover:shadow-lg transition-all shrink-0"
             >
-              <div className="relative w-11 h-11 sm:w-13 sm:h-13 shrink-0">
+              <div className="relative w-12 h-12 sm:w-14 sm:h-14 shrink-0">
                 <Image
                   src="/logohutech.png"
                   alt="Logo HUTECH"
                   fill
-                  sizes="52px"
+                  sizes="(max-width: 640px) 48px, 56px"
                   className="object-contain"
                   priority
                 />

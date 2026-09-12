@@ -39,12 +39,70 @@ const FACULTY_TABS = [
   { id: "KO", label: "Viện Việt - Hàn", count: 8, flag: "🇰🇷", lang: "ko" },
 ];
 
+/**
+ * Khung tải giả lập (Skeleton Loading) chuẩn hóa chiều cao và tỷ lệ
+ * Khớp chính xác 100% kích thước và bố cục của TopicCard thật nhằm triệt tiêu hoàn toàn Layout Shift
+ */
+function TopicCardSkeleton() {
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between overflow-hidden animate-pulse">
+      {/* Vạch màu nhận diện trên cùng */}
+      <div className="h-1 w-full bg-slate-200" />
+
+      <div className="p-5 sm:p-6 pb-4 space-y-3.5">
+        {/* Hàng metadata: Mã topic + Khoa viện + Level */}
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <div className="h-5 w-16 bg-slate-200 rounded" />
+            <div className="h-5 w-24 bg-slate-100 rounded" />
+          </div>
+          <div className="h-5 w-20 bg-slate-100 rounded-full" />
+        </div>
+
+        {/* Tiêu đề tiếng Việt */}
+        <div className="h-5 w-4/5 bg-slate-200 rounded" />
+
+        {/* Tiêu đề bản xứ */}
+        <div className="h-3.5 w-3/5 bg-slate-100 rounded" />
+
+        {/* Khung Persona AI */}
+        <div className="bg-slate-50/80 rounded-xl p-3 border border-slate-200/80 flex items-start gap-2.5">
+          <div className="w-7 h-7 rounded-lg bg-slate-200 shrink-0 mt-0.5" />
+          <div className="w-full space-y-1.5">
+            <div className="h-2.5 w-28 bg-slate-200 rounded" />
+            <div className="h-3 w-full bg-slate-100 rounded" />
+            <div className="h-3 w-4/5 bg-slate-100 rounded" />
+          </div>
+        </div>
+
+        {/* Danh sách từ vựng */}
+        <div className="space-y-2 pt-1">
+          <div className="h-3 w-28 bg-slate-200 rounded" />
+          <div className="flex flex-wrap gap-1.5">
+            <div className="h-5 w-16 bg-slate-100 rounded-md border border-slate-200/60" />
+            <div className="h-5 w-20 bg-slate-100 rounded-md border border-slate-200/60" />
+            <div className="h-5 w-14 bg-slate-100 rounded-md border border-slate-200/60" />
+          </div>
+        </div>
+      </div>
+
+      {/* Chân thẻ footer */}
+      <div className="p-4 sm:p-5 pt-3 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between gap-3">
+        <div className="h-4 w-28 bg-slate-200 rounded" />
+        <div className="h-8 w-32 bg-slate-200 rounded-xl" />
+      </div>
+    </div>
+  );
+}
+
 export default function HomePage() {
-  const [topics, setTopics] = useState<Topic[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  // Dữ liệu gốc toàn bộ 24 chủ đề nạp từ Backend (lưu trữ trong bộ nhớ RAM Client)
+  const [allTopics, setAllTopics] = useState<Topic[]>([]);
+  const [initialLoading, setInitialLoading] = useState<boolean>(true);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Bộ lọc chuyên môn
+  // Bộ lọc chuyên môn (Client-Side State phản hồi 0ms)
   const [selectedLang, setSelectedLang] = useState<string>("ALL");
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -52,24 +110,21 @@ export default function HomePage() {
   // Thu gọn / mở rộng hướng dẫn sử dụng (như ảnh mẫu)
   const [guideOpen, setGuideOpen] = useState<boolean>(false);
 
-  // Tải dữ liệu từ Backend FastAPI
-  const fetchTopics = async () => {
-    setLoading(true);
+  // Tải dữ liệu từ Backend FastAPI (chỉ gọi đúng 1 lần khi vào trang hoặc khi bấm Làm mới)
+  const fetchAllTopics = async (isManualRefresh = false) => {
+    if (isManualRefresh) {
+      setIsRefreshing(true);
+    } else {
+      setInitialLoading(true);
+    }
     setError(null);
 
     const apiUrl =
       process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
     try {
-      const url = new URL(`${apiUrl}/topics`);
-      if (selectedLang !== "ALL") {
-        url.searchParams.append("language", selectedLang.toLowerCase());
-      }
-      if (selectedDifficulty !== "ALL") {
-        url.searchParams.append("difficulty", selectedDifficulty.toLowerCase());
-      }
-
-      const response = await fetch(url.toString(), {
+      // Tải trọn vẹn danh mục chủ đề để xử lý lọc tức thì trên RAM
+      const response = await fetch(`${apiUrl}/topics?limit=100`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -84,7 +139,7 @@ export default function HomePage() {
       }
 
       const data: TopicListResponse = await response.json();
-      setTopics(data.items || []);
+      setAllTopics(data.items || []);
     } catch (err: any) {
       console.error("Lỗi khi tải danh mục chủ đề:", err);
       setError(
@@ -92,27 +147,64 @@ export default function HomePage() {
           "Không thể kết nối đến máy chủ Backend. Vui lòng đảm bảo cổng 8000 đang hoạt động."
       );
     } finally {
-      setLoading(false);
+      setInitialLoading(false);
+      setIsRefreshing(false);
     }
   };
 
+  // Chỉ gọi fetch 1 lần duy nhất khi khởi tạo component (Loại bỏ triệt để độ trễ mạng khi chuyển Tab)
   useEffect(() => {
-    fetchTopics();
-  }, [selectedLang, selectedDifficulty]);
+    fetchAllTopics();
+  }, []);
 
-  // Lọc tìm kiếm theo từ khóa
+  // Tính toán số lượng chủ đề cho từng Khoa/Viện trực tiếp từ RAM
+  const tabCounts = useMemo(() => {
+    return {
+      ALL: allTopics.length || 24,
+      EN: allTopics.filter((t) => t.language.toLowerCase() === "en").length || 8,
+      JA: allTopics.filter((t) => t.language.toLowerCase() === "ja").length || 8,
+      KO: allTopics.filter((t) => t.language.toLowerCase() === "ko").length || 8,
+    };
+  }, [allTopics]);
+
+  // Bộ lọc tức thì trên RAM (Instant In-Memory Filter) - Phản xạ 0ms không gọi lại API
   const filteredTopics = useMemo(() => {
-    if (!searchQuery.trim()) return topics;
-    const q = searchQuery.toLowerCase();
-    return topics.filter(
-      (t) =>
-        t.title_vi.toLowerCase().includes(q) ||
-        t.title_native.toLowerCase().includes(q) ||
-        t.topic_code.toLowerCase().includes(q) ||
-        t.ai_persona.toLowerCase().includes(q) ||
-        t.faculty.toLowerCase().includes(q)
-    );
-  }, [topics, searchQuery]);
+    let result = allTopics;
+
+    // 1. Lọc theo ngôn ngữ Khoa / Viện
+    if (selectedLang !== "ALL") {
+      const targetLang = selectedLang.toLowerCase();
+      result = result.filter((t) => t.language.toLowerCase() === targetLang);
+    }
+
+    // 2. Lọc theo cấp độ đào tạo
+    if (selectedDifficulty !== "ALL") {
+      const targetDiff = selectedDifficulty.toLowerCase();
+      result = result.filter((t) => {
+        const lvl = t.level.toLowerCase();
+        if (targetDiff === "easy") return lvl === "easy" || lvl === "dễ" || lvl === "beginner";
+        if (targetDiff === "medium") return lvl === "medium" || lvl === "vừa" || lvl === "intermediate";
+        if (targetDiff === "hard") return lvl === "hard" || lvl === "nâng cao" || lvl === "advanced";
+        return lvl === targetDiff;
+      });
+    }
+
+    // 3. Lọc theo từ khóa tìm kiếm
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      result = result.filter(
+        (t) =>
+          t.title_vi.toLowerCase().includes(q) ||
+          t.title_native.toLowerCase().includes(q) ||
+          t.topic_code.toLowerCase().includes(q) ||
+          t.ai_persona.toLowerCase().includes(q) ||
+          t.faculty.toLowerCase().includes(q) ||
+          (t.category && t.category.toLowerCase().includes(q))
+      );
+    }
+
+    return result;
+  }, [allTopics, selectedLang, selectedDifficulty, searchQuery]);
 
   return (
     <div className="min-h-screen bg-[#F4F6F9] flex flex-row font-sans text-slate-800 w-full overflow-x-hidden">
@@ -337,6 +429,7 @@ export default function HomePage() {
                 <div className="flex flex-wrap items-center gap-2 border-b border-slate-100 pb-3">
                   {FACULTY_TABS.map((tab) => {
                     const isActive = selectedLang === tab.id;
+                    const count = tabCounts[tab.id as keyof typeof tabCounts] ?? tab.count;
                     return (
                       <button
                         key={tab.id}
@@ -356,7 +449,7 @@ export default function HomePage() {
                               : "bg-slate-200 text-slate-700"
                           }`}
                         >
-                          {tab.count}
+                          {count}
                         </span>
                       </button>
                     );
@@ -392,12 +485,13 @@ export default function HomePage() {
                     </div>
 
                     <button
-                      onClick={fetchTopics}
-                      title="Làm mới danh sách chủ đề"
-                      className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200/90 text-slate-600 transition-colors"
+                      onClick={() => fetchAllTopics(true)}
+                      disabled={isRefreshing || initialLoading}
+                      title="Làm mới danh sách chuyên đề từ máy chủ"
+                      className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200/90 text-slate-600 transition-colors disabled:opacity-50 cursor-pointer"
                     >
                       <RefreshCw
-                        className={`w-4 h-4 ${loading ? "animate-spin text-[#0054A6]" : ""}`}
+                        className={`w-4 h-4 ${isRefreshing || initialLoading ? "animate-spin text-[#0054A6]" : ""}`}
                       />
                     </button>
                   </div>
@@ -415,7 +509,7 @@ export default function HomePage() {
                   </h3>
                   <p className="text-xs text-red-600 max-w-md mx-auto mb-4">{error}</p>
                   <button
-                    onClick={fetchTopics}
+                    onClick={() => fetchAllTopics(true)}
                     className="px-4 py-2 bg-[#0054A6] hover:bg-[#003B7A] text-white text-xs font-bold rounded-xl transition-colors shadow-2xs inline-flex items-center gap-2"
                   >
                     <RefreshCw className="w-3.5 h-3.5" />
@@ -424,29 +518,17 @@ export default function HomePage() {
                 </div>
               )}
 
-              {/* Skeleton loading */}
-              {loading && !error && (
+              {/* Skeleton loading chuẩn hóa chiều cao 100% khi mới mở trang */}
+              {initialLoading && !error && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                   {[1, 2, 3, 4, 5, 6].map((i) => (
-                    <div
-                      key={i}
-                      className="bg-white rounded-2xl border border-slate-200 p-5 space-y-3.5 animate-pulse"
-                    >
-                      <div className="flex justify-between items-center">
-                        <div className="h-4 bg-slate-200 rounded w-20" />
-                        <div className="h-4 bg-slate-200 rounded w-20" />
-                      </div>
-                      <div className="h-5 bg-slate-200 rounded w-3/4" />
-                      <div className="h-4 bg-slate-100 rounded w-1/2" />
-                      <div className="h-14 bg-slate-100 rounded-xl" />
-                      <div className="h-8 bg-slate-200 rounded-xl w-full" />
-                    </div>
+                    <TopicCardSkeleton key={i} />
                   ))}
                 </div>
               )}
 
-              {/* Lưới danh mục 24 chuyên đề trải rộng full màn hình */}
-              {!loading && !error && (
+              {/* Lưới danh mục 24 chuyên đề trải rộng full màn hình - Tự động chuyển cảnh mượt mà */}
+              {!initialLoading && !error && (
                 <>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -463,7 +545,7 @@ export default function HomePage() {
                   </div>
 
                   {filteredTopics.length === 0 ? (
-                    <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center my-6">
+                    <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center my-6 animate-fade-in">
                       <MessageSquare className="w-10 h-10 text-slate-300 mx-auto mb-3" />
                       <h3 className="text-sm font-bold text-slate-700">
                         Không tìm thấy chuyên đề phù hợp với bộ lọc
@@ -473,7 +555,10 @@ export default function HomePage() {
                       </p>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                    <div
+                      key={`${selectedLang}-${selectedDifficulty}`}
+                      className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 animate-fade-in"
+                    >
                       {filteredTopics.map((topic) => (
                         <TopicCard key={topic.topic_code} topic={topic} />
                       ))}
