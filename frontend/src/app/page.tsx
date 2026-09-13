@@ -29,6 +29,8 @@ import {
   Info,
   Layers,
   ArrowRight,
+  Flame,
+  Mic,
 } from "lucide-react";
 
 // Danh mục Tab phân hệ theo Khoa/Viện tại HUTECH
@@ -216,15 +218,15 @@ export default function HomePage() {
         {/* Banner trường chuẩn nhận diện HUTECH full-width */}
         <Header />
 
-        {/* Thanh collapsible: Hướng dẫn sử dụng hệ thống (nhấn để xem) như ảnh mẫu */}
+        {/* Thanh collapsible: Cẩm nang luyện phản xạ AI */}
         <div className="w-full bg-white border-b border-slate-200 shadow-2xs">
           <button
             onClick={() => setGuideOpen(!guideOpen)}
             className="w-full px-4 sm:px-6 py-2.5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors"
           >
             <div className="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-[#0054A6]">
-              <Monitor className="w-4 h-4 text-[#0054A6]" />
-              <span>📖 Hướng dẫn sử dụng hệ thống luyện phản xạ AI (nhấn để xem)</span>
+              <Sparkles className="w-4 h-4 text-[#E31B23]" />
+              <span>💡 Cẩm nang luyện phản xạ đàm thoại AI cùng HutechPoly AI (nhấn để xem)</span>
             </div>
             {guideOpen ? (
               <ChevronUp className="w-4 h-4 text-slate-400" />
@@ -236,89 +238,106 @@ export default function HomePage() {
           {guideOpen && (
             <div className="px-4 sm:px-6 py-4 bg-blue-50/40 border-t border-blue-100 text-xs sm:text-sm text-slate-700 space-y-2">
               <p className="font-semibold text-[#0054A6]">
-                Chào mừng sinh viên HUTECH đến với Hệ thống Luyện phản xạ Đa ngữ AI!
+                Chào mừng sinh viên HUTECH đến với Nền tảng Luyện phản xạ Đa ngữ Thông minh HutechPoly AI!
               </p>
               <ul className="list-disc pl-5 space-y-1 text-slate-600 text-xs">
                 <li>
-                  <strong>Bước 1:</strong> Chọn Viện / Khoa tương ứng (Khoa Ngoại ngữ - Tiếng Anh, Viện VJIT - Tiếng Nhật, Viện Việt - Hàn - Tiếng Hàn).
+                  <strong>Bước 1:</strong> Chọn phân hệ Khoa / Viện của bạn (Khoa Ngoại ngữ - Tiếng Anh, Viện VJIT - Tiếng Nhật, Viện Việt - Hàn - Tiếng Hàn).
                 </li>
                 <li>
-                  <strong>Bước 2:</strong> Lựa chọn cấp độ (Sơ cấp, Trung cấp, Nâng cao) và bấm <em>"Vào luyện phản xạ"</em> tại chuyên đề mong muốn.
+                  <strong>Bước 2:</strong> Lựa chọn cấp độ phù hợp (Sơ cấp, Trung cấp, Nâng cao) và bấm <em>"Vào luyện phản xạ"</em> tại chuyên đề mong muốn.
                 </li>
                 <li>
-                  <strong>Bước 3:</strong> Sử dụng phím <em>Push-to-Talk</em> (nhấn giữ mic để nói) hoặc nhập liệu thoại trực tiếp.
+                  <strong>Bước 3:</strong> Sử dụng micro đàm thoại (Push-to-Talk) hoặc gõ văn bản trực tiếp để đối thoại hai chiều với trợ giảng AI bản ngữ.
                 </li>
                 <li>
-                  <strong>Cơ chế đặc biệt:</strong> Khi bị bí từ vựng, sinh viên hoàn toàn có thể <strong>nói chêm tiếng Việt</strong>. AI bản ngữ sẽ tự động bắt ngữ cảnh và sửa lỗi song ngữ tức thì!
+                  <strong>Cơ chế cứu cánh song ngữ (Bilingual Fallback):</strong> Khi bị bí từ vựng hoặc chưa nhớ mẫu câu, sinh viên hoàn toàn có thể <strong>nói chêm tiếng Việt</strong>. AI bản ngữ sẽ tự động bắt trúng ngữ cảnh, đối đáp bằng ngoại ngữ và gợi ý sửa lỗi tức thì!
                 </li>
               </ul>
             </div>
           )}
         </div>
 
-        {/* 3. BỐ CỤC NỘI DUNG 2 CỘT FULL-SCREEN (Như cổng học vụ thực tế của trường) */}
+        {/* 3. BỐ CỤC NỘI DUNG 2 CỘT FULL-SCREEN */}
         <main className="w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            {/* CỘT TRÁI (Lg: 4/12): THẺ THÔNG TIN SINH VIÊN & CHỨNG CHỈ ĐIỀU KIỆN (GIỐNG ẢNH MẪU 2) */}
+            {/* CỘT TRÁI (Lg: 4/12): HỒ SƠ NGƯỜI HỌC & MỤC TIÊU NĂNG LỰC */}
             <div className="lg:col-span-5 xl:col-span-4 space-y-5">
-              {/* Thẻ sinh viên HUTECH */}
+              {/* Thẻ Hồ sơ người học HutechPoly AI */}
               <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs space-y-4">
-                {/* Header thẻ sinh viên */}
+                {/* Header Hồ sơ */}
                 <div className="flex items-center gap-3.5 pb-4 border-b border-slate-100">
-                  <div className="w-14 h-14 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center font-black text-lg text-slate-700 shadow-2xs">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0054A6] to-[#003B7A] text-white flex items-center justify-center font-black text-lg shadow-md border-2 border-[#FFC20E]">
                     NT
                   </div>
                   <div>
-                    <h2 className="text-base font-extrabold text-slate-900 leading-snug">
-                      Nguyễn Phan Ngọc Trường
-                    </h2>
+                    <div className="flex items-center gap-1.5">
+                      <h2 className="text-base font-extrabold text-slate-900 leading-snug">
+                        Nguyễn Phan Ngọc Trường
+                      </h2>
+                    </div>
                     <span className="font-mono text-xs font-bold text-slate-500 block">
-                      2380602415
+                      MSSV: 2380602415 • 23DTHC3
                     </span>
                     <span className="text-xs font-semibold text-[#0054A6] block">
-                      Công nghệ thông tin
+                      Khoa Công nghệ thông tin
                     </span>
                   </div>
                 </div>
 
-                {/* Các trường thông tin chi tiết */}
+                {/* Các chỉ số thống kê luyện phản xạ thực tế của sinh viên */}
                 <div className="space-y-2.5 text-xs text-slate-600">
-                  <div className="flex items-center justify-between py-1 border-b border-slate-50">
-                    <span className="text-slate-400 font-medium">Ngày sinh</span>
-                    <strong className="text-slate-800">07/01/2005</strong>
+                  <div className="flex items-center justify-between py-1.5 border-b border-slate-50">
+                    <span className="text-slate-500 font-medium flex items-center gap-1.5">
+                      <Flame className="w-3.5 h-3.5 text-[#F58220] fill-[#F58220]" />
+                      <span>Chuỗi ngày luyện nói (Streak)</span>
+                    </span>
+                    <strong className="text-[#F58220] font-black text-sm">3 Ngày liên tục</strong>
                   </div>
-                  <div className="flex items-center justify-between py-1 border-b border-slate-50">
-                    <span className="text-slate-400 font-medium">Email</span>
-                    <strong className="text-slate-800">hnhoa494@gmail.com</strong>
+
+                  <div className="flex items-center justify-between py-1.5 border-b border-slate-50">
+                    <span className="text-slate-500 font-medium flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-[#0054A6]" />
+                      <span>Thời gian đàm thoại tuần này</span>
+                    </span>
+                    <strong className="text-slate-900 font-bold">45 Phút</strong>
                   </div>
-                  <div className="flex items-center justify-between py-1 border-b border-slate-50">
-                    <span className="text-slate-400 font-medium">Số điện thoại</span>
-                    <strong className="text-slate-800">0325581101</strong>
+
+                  <div className="flex items-center justify-between py-1.5 border-b border-slate-50">
+                    <span className="text-slate-500 font-medium flex items-center gap-1.5">
+                      <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Tổng câu thoại đã tương tác</span>
+                    </span>
+                    <strong className="text-emerald-700 font-bold">62 Lượt đàm thoại</strong>
                   </div>
-                  <div className="flex items-center justify-between py-1 border-b border-slate-50">
-                    <span className="text-slate-400 font-medium">Lớp sinh hoạt</span>
-                    <strong className="text-[#0054A6] font-bold">23DTHC3</strong>
-                  </div>
-                  <div className="flex items-center justify-between py-1 border-b border-slate-50">
-                    <span className="text-slate-400 font-medium">Khoa / Viện</span>
-                    <strong className="text-slate-800">Khoa Công nghệ thông tin</strong>
+
+                  <div className="flex items-center justify-between py-1.5 border-b border-slate-50">
+                    <span className="text-slate-500 font-medium flex items-center gap-1.5">
+                      <BookOpen className="w-3.5 h-3.5 text-purple-600" />
+                      <span>Từ vựng mới đã tích lũy</span>
+                    </span>
+                    <strong className="text-purple-700 font-bold">38 Từ vựng</strong>
                   </div>
                 </div>
 
-                {/* Nút cập nhật thông tin học vụ */}
+                {/* Nút hành động vào phòng luyện nói nhanh */}
                 <div className="pt-1">
-                  <button className="w-full py-2 px-3 rounded-xl border border-[#E31B23]/40 text-[#E31B23] hover:bg-red-50 text-xs font-bold transition-colors text-center shadow-2xs">
-                    Cập nhật thông tin liên hệ
-                  </button>
+                  <Link
+                    href="/practice/ENG-T01"
+                    className="w-full py-2.5 px-3 rounded-xl bg-[#0054A6] hover:bg-[#003B7A] text-white text-xs font-bold transition-all text-center shadow-2xs flex items-center justify-center gap-2"
+                  >
+                    <Mic className="w-3.5 h-3.5" />
+                    <span>Vào phòng luyện phản xạ ngay</span>
+                  </Link>
                 </div>
               </div>
 
-              {/* Khung: Chứng chỉ điều kiện ngoại ngữ (như ảnh mẫu) */}
+              {/* Khung: Mục tiêu năng lực đầu ra 3 Khoa/Viện */}
               <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs space-y-3.5">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                   <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#0054A6] flex items-center gap-1.5">
                     <GraduationCap className="w-4 h-4 text-[#0054A6]" />
-                    <span>CHỨNG CHỈ ĐIỀU KIỆN NGOẠI NGỮ</span>
+                    <span>MỤC TIÊU NĂNG LỰC ĐẦU RA</span>
                   </h3>
                 </div>
 
@@ -327,13 +346,13 @@ export default function HomePage() {
                   <div className="flex items-center justify-between gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-100">
                     <div className="flex items-center gap-2">
                       <span className="font-mono font-bold px-1.5 py-0.5 rounded bg-blue-100 text-[#0054A6] text-[11px]">
-                        B1
+                        EN
                       </span>
-                      <span className="font-semibold text-slate-800">Chuẩn CEF B1 (VSTEP / IELTS)</span>
+                      <span className="font-semibold text-slate-800">Khoa Ngoại ngữ (VSTEP B1/B2)</span>
                     </div>
                     <span className="text-amber-600 font-bold text-[11px] flex items-center gap-1">
                       <AlertTriangle className="w-3 h-3" />
-                      <span>Đang luyện tập</span>
+                      <span>Đang luyện</span>
                     </span>
                   </div>
 
@@ -357,7 +376,7 @@ export default function HomePage() {
                       <span className="font-mono font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 text-[11px]">
                         KO
                       </span>
-                      <span className="font-semibold text-slate-800">Viện Việt - Hàn (TOPIK 3)</span>
+                      <span className="font-semibold text-slate-800">Viện Việt - Hàn (TOPIK 2 - 3)</span>
                     </div>
                     <span className="text-blue-600 font-bold text-[11px] flex items-center gap-1">
                       <CheckCircle2 className="w-3 h-3" />
@@ -367,14 +386,14 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Khung thông tin Bilingual Fallback đặc sắc */}
+              {/* Khung thông tin Bilingual Fallback đặc quyền */}
               <div className="bg-gradient-to-br from-blue-50 to-amber-50/50 rounded-2xl border border-blue-200/80 p-4 shadow-2xs space-y-2">
                 <div className="flex items-center gap-1.5 text-xs font-bold text-[#0054A6]">
                   <Sparkles className="w-4 h-4 text-[#E31B23]" />
-                  <span>Cơ chế học vụ: Bilingual Fallback</span>
+                  <span>Cơ chế độc quyền: Bilingual Fallback</span>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Khi gặp khó khăn về từ vựng, sinh viên được phép <strong className="text-[#E31B23]">nói chêm Tiếng Việt</strong>. AI bản ngữ sẽ phân tích ngữ cảnh để đối thoại tự nhiên, đồng thời gợi ý sửa lỗi ngữ pháp & từ vựng tức thì!
+                  Khi gặp khó khăn về từ vựng hoặc chưa nhớ mẫu câu, sinh viên được phép <strong className="text-[#E31B23]">nói chêm Tiếng Việt</strong>. AI bản ngữ sẽ thấu hiểu ngữ cảnh để đối thoại tự nhiên, đồng thời gợi ý sửa lỗi ngữ pháp & từ vựng thay thế tức thì!
                 </p>
               </div>
             </div>
@@ -570,34 +589,55 @@ export default function HomePage() {
           </div>
         </main>
 
-        {/* 4. Footer trải rộng toàn màn hình chuẩn HUTECH */}
+        {/* 4. Footer trải rộng toàn màn hình chuẩn nhận diện HUTECH */}
         <footer className="w-full bg-[#003B7A] text-white pt-8 pb-5 border-b-4 border-[#E31B23] mt-auto">
           <div className="w-full px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-blue-800/60 text-xs">
-              {/* Cột 1: Thông tin Trường & Đồ án tốt nghiệp */}
+              {/* Cột 1: Thông tin Trường & Nền tảng HutechPoly AI */}
               <div className="space-y-3">
                 <div>
                   <span className="font-extrabold text-sm tracking-tight text-white block">
                     TRƯỜNG ĐẠI HỌC CÔNG NGHỆ TP.HCM (HUTECH)
                   </span>
-                  <span className="text-[11px] text-blue-200 font-medium">
-                    Khoa Công nghệ Thông tin • Đề tài Khóa Luận Tốt Nghiệp 2026
+                  <span className="text-[11px] text-[#FFC20E] font-bold">
+                    HutechPoly AI — Nền Tảng Luyện Phản Xạ Ngoại Ngữ Thông Minh
                   </span>
                 </div>
                 <p className="text-blue-100/80 leading-relaxed">
-                  Hệ thống đàm thoại thông minh ứng dụng AI phản xạ phục vụ sinh viên chuyên ngữ các hệ đào tạo chính quy, chuẩn Nhật Bản (VJIT) và chuẩn Hàn Quốc (VKIT).
+                  Hệ thống đàm thoại tương tác ứng dụng mô hình trí tuệ nhân tạo Gemini 2.5 Flash và giọng đọc bản ngữ Edge-TTS, hỗ trợ sinh viên rèn luyện phản xạ giao tiếp tự nhiên chuẩn khung năng lực quốc tế.
                 </p>
               </div>
 
-              {/* Cột 2: Các cơ sở đào tạo chính thức */}
+              {/* Cột 2: Các phân hệ ngoại ngữ chuyên môn */}
               <div className="space-y-2">
                 <span className="font-bold text-xs text-[#FFC20E] uppercase tracking-wider block">
-                  CÁC CƠ SỞ ĐÀO TẠO HUTECH
+                  3 PHÂN HỆ NGOẠI NGỮ THỤ HƯỞNG
+                </span>
+                <ul className="space-y-2 text-blue-100/90">
+                  <li className="flex items-start gap-1.5">
+                    <span className="font-mono font-bold px-1 rounded bg-blue-900 text-blue-200 text-[10px]">EN</span>
+                    <span><strong>Khoa Ngoại ngữ:</strong> Chuẩn VSTEP B1/B2/C1 & IELTS Quốc tế</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="font-mono font-bold px-1 rounded bg-rose-900 text-rose-200 text-[10px]">JA</span>
+                    <span><strong>Viện VJIT:</strong> Chuẩn Kaiwa N5 - N2 & Kính ngữ doanh nghiệp</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="font-mono font-bold px-1 rounded bg-amber-900 text-amber-200 text-[10px]">KO</span>
+                    <span><strong>Viện Việt - Hàn:</strong> Chuẩn TOPIK 2 - 3 & Giao tiếp Seoul</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Cột 3: Trụ sở và các cơ sở HUTECH */}
+              <div className="space-y-2">
+                <span className="font-bold text-xs text-[#FFC20E] uppercase tracking-wider block">
+                  TRỤ SỞ & CÁC CƠ SỞ ĐÀO TẠO HUTECH
                 </span>
                 <ul className="space-y-1.5 text-blue-100/90">
                   <li className="flex items-start gap-1.5">
                     <MapPin className="w-3.5 h-3.5 text-[#FFC20E] shrink-0 mt-0.5" />
-                    <span><strong>Trụ sở:</strong> 475A Điện Biên Phủ, P.25, Q.Bình Thạnh, TP.HCM</span>
+                    <span><strong>Trụ sở chính:</strong> 475A Điện Biên Phủ, P.25, Q.Bình Thạnh, TP.HCM</span>
                   </li>
                   <li className="flex items-start gap-1.5">
                     <MapPin className="w-3.5 h-3.5 text-[#FFC20E] shrink-0 mt-0.5" />
@@ -605,41 +645,15 @@ export default function HomePage() {
                   </li>
                   <li className="flex items-start gap-1.5">
                     <MapPin className="w-3.5 h-3.5 text-[#FFC20E] shrink-0 mt-0.5" />
-                    <span><strong>Khu Công nghệ cao:</strong> Phân hiệu HUTECH tại Khu Công nghệ cao TP.Thủ Đức</span>
+                    <span><strong>Phân hiệu Khu Công nghệ cao:</strong> Xa lộ Hà Nội, P.Hiệp Phú, TP.Thủ Đức</span>
                   </li>
                 </ul>
-              </div>
-
-              {/* Cột 3: Hỗ trợ học vụ */}
-              <div className="space-y-2">
-                <span className="font-bold text-xs text-[#FFC20E] uppercase tracking-wider block">
-                  LIÊN HỆ HỌC VỤ & KỸ THUẬT
-                </span>
-                <p className="text-blue-100 flex items-center gap-2">
-                  <Phone className="w-3.5 h-3.5 text-[#FFC20E]" />
-                  <span>Tổng đài học vụ: <strong>(028) 710 566 86</strong></span>
-                </p>
-                <p className="text-blue-100 flex items-center gap-2">
-                  <Mail className="w-3.5 h-3.5 text-[#FFC20E]" />
-                  <span>hocvudientu@hutech.edu.vn</span>
-                </p>
-                <div className="pt-2">
-                  <Link
-                    href="https://hocvudientu.hutech.edu.vn"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs text-[#FFC20E] hover:underline font-bold"
-                  >
-                    <span>Truy cập Cổng Học Vụ Điện Tử HUTECH</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </Link>
-                </div>
               </div>
             </div>
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-blue-300">
-              <span>© 2026 HutechPoly-AI • Khóa Luận Tốt Nghiệp CNTT trao tặng Trường Đại học HUTECH.</span>
-              <span>Hệ thống vận hành theo chuẩn khung năng lực CEFR / JLPT / TOPIK.</span>
+              <span>© 2026 HutechPoly AI — Bản quyền thuộc về Trường Đại học Công nghệ TP.HCM (HUTECH).</span>
+              <span>Khung năng lực đánh giá: CEFR (Anh) • JLPT (Nhật) • TOPIK (Hàn).</span>
             </div>
           </div>
         </footer>

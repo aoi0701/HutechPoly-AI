@@ -7,48 +7,46 @@ import {
   Bell,
   ChevronDown,
   Star,
-  ExternalLink,
-  Phone,
-  Mail,
-  ShieldCheck,
   Sparkles,
+  Flame,
+  Languages,
 } from "lucide-react";
 
 /**
- * Header Banner chuẩn nhận diện Cổng Học Vụ Điện Tử HUTECH
- * Tái hiện 100% phong cách banner thực tế của trường:
- * Nền xanh skyline, logo thẻ trắng, huy hiệu 31 năm, QS Stars, chuông báo & thông tin sinh viên.
+ * Header Banner chuẩn nhận diện nền tảng HutechPoly AI
+ * Thiết kế sang trọng chuẩn thương hiệu HUTECH:
+ * Nền xanh skyline, logo thẻ trắng, huy hiệu 31 năm, QS Stars, profile sinh viên luyện phản xạ.
  */
 export default function Header() {
   return (
     <div className="w-full bg-[#00478F] text-white">
-      {/* 1. Thanh phụ trên cùng (Top Utility Bar siêu nhỏ) */}
+      {/* 1. Thanh phụ trên cùng (Top Utility Bar) */}
       <div className="bg-[#003366] text-blue-100 text-[11px] py-1 px-4 sm:px-6 flex items-center justify-between border-b border-blue-900/50">
-        <div className="flex items-center gap-4 sm:gap-6">
+        <div className="flex items-center gap-3 sm:gap-5">
           <span className="flex items-center gap-1.5 font-medium">
-            <Phone className="w-3 h-3 text-[#FFC20E]" />
-            <span className="hidden sm:inline">Tổng đài học vụ:</span>
-            <strong className="text-white">(028) 710 566 86</strong>
+            <Languages className="w-3.5 h-3.5 text-[#FFC20E]" />
+            <span className="hidden sm:inline">Trường Đại học Công nghệ TP.HCM (HUTECH)</span>
+            <span className="sm:hidden font-bold">HUTECH</span>
           </span>
-          <span className="hidden md:flex items-center gap-1.5">
-            <Mail className="w-3 h-3 text-[#FFC20E]" />
-            <span>hocvudientu@hutech.edu.vn</span>
+          <span className="hidden md:flex items-center gap-1.5 text-blue-200">
+            <span>• Nền tảng luyện phản xạ ngoại ngữ đa ngữ thông minh</span>
           </span>
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="hidden lg:inline text-blue-200">
-            Hệ thống Học vụ Điện tử • Khóa Luận Tốt Nghiệp CNTT Trao Tặng HUTECH
+          <span className="hidden lg:inline text-blue-200 text-[10px]">
+            AI Engine: <strong>Gemini 2.5 Flash</strong> • Voice: <strong>Edge-TTS Bản Xứ</strong>
           </span>
-          <div className="bg-[#E31B23] text-white font-bold px-2 py-0.5 rounded text-[10px] tracking-wide">
-            HUTECHPOLY-AI
+          <div className="bg-[#E31B23] text-white font-black px-2 py-0.5 rounded text-[10px] tracking-wide flex items-center gap-1">
+            <Sparkles className="w-3 h-3 text-[#FFC20E]" />
+            <span>HUTECHPOLY AI</span>
           </div>
         </div>
       </div>
 
       {/* 2. Banner chính toàn màn hình (Full-Width Academic Banner) */}
       <div className="relative w-full bg-gradient-to-r from-[#003366] via-[#0054A6] to-[#0066CC] px-4 sm:px-6 py-4 overflow-hidden shadow-sm">
-        {/* Họa tiết bóng mờ thành phố / skyline đồ họa của trường HUTECH */}
+        {/* Họa tiết bóng mờ skyline hiện đại */}
         <div
           className="absolute inset-0 opacity-15 pointer-events-none bg-repeat-x bg-bottom"
           style={{
@@ -58,7 +56,7 @@ export default function Header() {
         />
 
         <div className="w-full flex flex-col xl:flex-row items-center justify-between gap-4 relative z-10">
-          {/* Cụm Trái: Thẻ trắng chứa Logo HUTECH và Kỷ niệm 31 năm (như ảnh mẫu) */}
+          {/* Cụm Trái: Thẻ trắng chứa Logo HUTECH và Kỷ niệm 31 năm */}
           <div className="flex items-center gap-3 w-full xl:w-auto justify-between sm:justify-start">
             <Link
               href="/"
@@ -84,7 +82,7 @@ export default function Header() {
                 </span>
               </div>
 
-              {/* Huy hiệu 31 năm HUTECH (như trên cổng học vụ) */}
+              {/* Huy hiệu 31 năm HUTECH */}
               <div className="hidden sm:flex flex-col text-left pl-1">
                 <div className="flex items-center gap-1">
                   <span className="text-lg font-black text-[#E31B23] leading-none">31</span>
@@ -94,38 +92,39 @@ export default function Header() {
                   1995 - 2026
                 </span>
                 <span className="text-[7px] text-[#0054A6] font-semibold tracking-tighter uppercase leading-none">
-                  Phát triển bền vững • Hội nhập
+                  Tri thức • Đạo đức • Sáng tạo
                 </span>
               </div>
             </Link>
 
-            {/* Tiêu đề hệ thống trên màn hình vừa và nhỏ */}
+            {/* Tiêu đề trên màn hình vừa và nhỏ */}
             <div className="block xl:hidden text-right sm:text-left text-white">
-              <span className="text-xs font-bold text-blue-200 block uppercase">Hệ Thống</span>
+              <span className="text-xs font-bold text-blue-200 block uppercase">Nền Tảng</span>
               <span className="text-sm sm:text-base font-black text-white block">
-                HỌC VỤ ĐIỆN TỬ • AI
+                HUTECHPOLY AI
               </span>
             </div>
           </div>
 
-          {/* Cụm Giữa: Chữ Banner Lớn Chuẩn Cổng Học Vụ HUTECH */}
+          {/* Cụm Giữa: Tên Nền Tảng HutechPoly AI chuẩn nhận diện thương hiệu */}
           <div className="hidden xl:flex flex-col items-center justify-center text-center">
-            <span className="text-xs font-extrabold tracking-widest text-blue-200 uppercase drop-shadow-xs">
-              HỆ THỐNG
+            <span className="text-[11px] font-extrabold tracking-widest text-blue-200 uppercase drop-shadow-xs">
+              HỆ THỐNG LUYỆN PHẢN XẠ HỘI THOẠI THÔNG MINH
             </span>
-            <div className="bg-white/95 text-[#E31B23] px-6 py-1 rounded-2xl shadow-md border-2 border-white/40 my-0.5">
-              <span className="text-2xl font-black tracking-tight text-[#E31B23]">
-                HỌC VỤ ĐIỆN TỬ
+            <div className="bg-white/95 text-[#0054A6] px-7 py-1 rounded-2xl shadow-md border-2 border-white/40 my-0.5 flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-[#E31B23]" />
+              <span className="text-2xl font-black tracking-tight text-[#0054A6]">
+                HUTECHPOLY <span className="text-[#E31B23]">AI</span>
               </span>
             </div>
-            <span className="text-xs font-black tracking-wider text-white uppercase drop-shadow-xs">
-              PHÂN HỆ LUYỆN PHẢN XẠ NGOẠI NGỮ • HUTECHPOLY-AI
+            <span className="text-[10px] font-bold tracking-wider text-white uppercase drop-shadow-xs">
+              KHOA NGOẠI NGỮ • VIỆN CÔNG NGHỆ VIỆT - NHẬT (VJIT) • VIỆN CÔNG NGHỆ VIỆT - HÀN
             </span>
           </div>
 
-          {/* Cụm Phải: Huy hiệu QS Stars + Thông báo + Thông tin Sinh viên (như ảnh mẫu) */}
+          {/* Cụm Phải: Huy hiệu QS Stars + Thông báo + Profile Người học */}
           <div className="flex items-center gap-3 sm:gap-4 w-full xl:w-auto justify-end">
-            {/* Huy hiệu QS Stars (như ảnh mẫu) */}
+            {/* Huy hiệu QS Stars */}
             <div className="hidden lg:flex items-center gap-2 bg-white/10 backdrop-blur-xs border border-white/20 px-3 py-1.5 rounded-xl text-white">
               <div className="flex text-[#FFC20E]">
                 <Star className="w-3.5 h-3.5 fill-[#FFC20E]" />
@@ -139,15 +138,18 @@ export default function Header() {
               </div>
             </div>
 
-            {/* Chuông thông báo có số badge đỏ (như ảnh mẫu: 19) */}
-            <div className="relative cursor-pointer p-2 rounded-xl bg-white/10 hover:bg-white/20 transition-colors">
+            {/* Chuông thông báo phản hồi học tập */}
+            <div
+              title="Thông báo phản hồi luyện tập"
+              className="relative cursor-pointer p-2 rounded-xl bg-white/10 hover:bg-white/20 transition-colors"
+            >
               <Bell className="w-5 h-5 text-white" />
               <span className="absolute -top-1 -right-1 bg-[#E31B23] text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#0054A6] shadow-sm">
-                19
+                3
               </span>
             </div>
 
-            {/* Thông tin Sinh viên chuẩn portal: Avatar + Tên + MSSV (như ảnh mẫu) */}
+            {/* Thông tin Sinh viên đang luyện phản xạ */}
             <div className="flex items-center gap-2.5 bg-white/10 hover:bg-white/15 px-3 py-1.5 rounded-xl border border-white/20 transition-all cursor-pointer">
               <div className="w-9 h-9 rounded-full bg-white text-[#0054A6] flex items-center justify-center font-black text-xs shadow-xs border-2 border-[#FFC20E]">
                 NT
@@ -156,8 +158,11 @@ export default function Header() {
                 <span className="text-xs font-extrabold text-white block">
                   Nguyễn Phan Ngọc Trường
                 </span>
-                <span className="text-[11px] text-blue-200 font-mono font-medium block">
-                  2380602415
+                <span className="text-[11px] text-blue-200 font-mono font-medium block flex items-center gap-1">
+                  <span>2380602415</span>
+                  <span className="text-[#FFC20E] font-bold inline-flex items-center text-[10px]">
+                    <Flame className="w-3 h-3 fill-[#FFC20E]" /> 3 Ngày
+                  </span>
                 </span>
               </div>
               <ChevronDown className="w-4 h-4 text-blue-200 opacity-80" />

@@ -7,18 +7,15 @@ import {
   Home,
   BookOpen,
   Mic,
-  GraduationCap,
   Languages,
-  Layers,
   Award,
-  ExternalLink,
-  Clock,
   FileText,
+  Sparkles,
 } from "lucide-react";
 
 /**
- * Thanh điều hướng dọc chuẩn Cổng Học Vụ Điện Tử HUTECH (Left Sidebar)
- * Tương tự thanh menu icon dọc của trang https://hocvudientu.hutech.edu.vn
+ * Thanh điều hướng dọc chuẩn nền tảng HutechPoly AI (Left Navigation Sidebar)
+ * Tập trung 100% vào các nghiệp vụ luyện phản xạ ngoại ngữ thông minh cho sinh viên HUTECH.
  */
 export default function Sidebar() {
   const pathname = usePathname();
@@ -33,39 +30,39 @@ export default function Sidebar() {
     },
     {
       id: "topics",
-      label: "Danh mục chủ đề",
+      label: "Chủ đề AI",
       href: "/#topics-catalog",
-      icon: BookOpen,
+      icon: Languages,
       isActive: false,
     },
     {
       id: "practice",
-      label: "Phòng luyện AI",
+      label: "Phòng thoại",
       href: "/practice/ENG-T01",
       icon: Mic,
       isActive: pathname.startsWith("/practice"),
     },
     {
-      id: "schedule",
-      label: "Thời khoá biểu",
+      id: "notebook",
+      label: "Sổ tay lỗi",
       href: "#",
-      icon: Clock,
+      icon: FileText,
+      isActive: false,
+      badge: "Sắp ra mắt",
+    },
+    {
+      id: "progress",
+      label: "Tiến độ học",
+      href: "#",
+      icon: Award,
       isActive: false,
     },
     {
-      id: "records",
-      label: "Tiến độ học tập",
-      href: "#",
-      icon: GraduationCap,
+      id: "guide",
+      label: "Cẩm nang",
+      href: "/#guide",
+      icon: BookOpen,
       isActive: false,
-    },
-    {
-      id: "portal",
-      label: "Cổng Học vụ",
-      href: "https://hocvudientu.hutech.edu.vn",
-      icon: ExternalLink,
-      isActive: false,
-      isExternal: true,
     },
   ];
 
@@ -80,9 +77,7 @@ export default function Sidebar() {
             <Link
               key={item.id}
               href={item.href}
-              target={item.isExternal ? "_blank" : undefined}
-              rel={item.isExternal ? "noreferrer" : undefined}
-              className={`w-[76px] sm:w-[84px] py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-1.5 text-center transition-all ${
+              className={`relative w-[76px] sm:w-[84px] py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-1.5 text-center transition-all ${
                 isCurrent
                   ? "bg-blue-50/80 border-2 border-[#0054A6] text-[#0054A6] shadow-2xs font-bold"
                   : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 border border-transparent font-medium"
@@ -93,7 +88,7 @@ export default function Sidebar() {
                   isCurrent ? "text-[#0054A6]" : "text-slate-500"
                 }`}
               />
-              <span className="text-[10px] sm:text-[11px] leading-tight block line-clamp-2">
+              <span className="text-[10px] sm:text-[11px] leading-tight block line-clamp-1">
                 {item.label}
               </span>
             </Link>
@@ -101,10 +96,13 @@ export default function Sidebar() {
         })}
       </div>
 
-      {/* Chân sidebar: Huy hiệu phiên bản */}
-      <div className="text-center pb-2">
+      {/* Chân sidebar: Huy hiệu HutechPoly AI */}
+      <div className="text-center pb-2 flex flex-col items-center">
+        <Sparkles className="w-3.5 h-3.5 text-[#E31B23] mb-0.5" />
         <span className="text-[9px] font-bold text-slate-400 block">v2.0</span>
-        <span className="text-[8px] font-black text-[#0054A6] uppercase">HUTECH</span>
+        <span className="text-[8px] font-black text-[#0054A6] uppercase tracking-wider">
+          POLY AI
+        </span>
       </div>
     </aside>
   );

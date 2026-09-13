@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "HutechPoly-AI | Luyện Phản Xạ Đa Ngữ Thông Minh - ĐH HUTECH",
+  title: "HutechPoly AI | Nền Tảng Luyện Phản Xạ Đa Ngữ Thông Minh - ĐH HUTECH",
   description:
-    "Hệ thống luyện phản xạ hội thoại thông minh theo chủ đề đa dạng (Anh - Nhật - Hàn) hiến tặng Trường Đại học HUTECH.",
+    "Hệ thống luyện phản xạ hội thoại thông minh đa ngữ (Anh - Nhật - Hàn) ứng dụng trí tuệ nhân tạo dành cho sinh viên Trường Đại học HUTECH.",
 };
 
 export default function RootLayout({
